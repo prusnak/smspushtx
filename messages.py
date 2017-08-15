@@ -1,3 +1,8 @@
+import binascii
+import string
+import requests
+
+
 messages = {}
 
 
@@ -39,5 +44,36 @@ def process_msg(msg):
 
 
 def pushtx(data):
+
     print('PUSHING "%s"' % data)
-    # TODO
+
+    # is it hex format?
+    if all(c in string.hexdigits for c in data):
+        decoded = data
+    else:
+        # try base64 decode, then convert to hex
+        try:
+            decoded = binascii.hexlify(binascii.a2b_base64(data)).decode()
+        except:
+            decoded = None
+
+    if not decoded:
+        print('PUSH DECODE ERROR')
+        return
+
+    endpoints = [
+        'https://btc-bitcore1.trezor.io/tx/send',
+        'https://btc-bitcore4.trezor.io/tx/send',
+        'https://insight.bitpay.com/tx/send',
+        'https://blockexplorer.com/tx/send',
+    ]
+
+    for e in endpoints:
+        try:
+            r = requests.post(e, json={'rawtx': decoded}, timeout=1)
+            if r.status_code == 200:
+                print('PUSH OK', e)
+            else:
+                print('PUSH ERROR', e)
+        except Exception as ex:
+            print('PUSH FAILED', e, ex)
