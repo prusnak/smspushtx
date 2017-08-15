@@ -62,10 +62,10 @@ def pushtx(data):
         return
 
     endpoints = [
-        'https://btc-bitcore1.trezor.io/tx/send',
-        'https://btc-bitcore4.trezor.io/tx/send',
-        'https://insight.bitpay.com/tx/send',
-        'https://blockexplorer.com/tx/send',
+        'https://btc-bitcore1.trezor.io/api/tx/send',
+        'https://btc-bitcore4.trezor.io/api/tx/send',
+        'https://insight.bitpay.com/api/tx/send',
+        'https://blockexplorer.com/api/tx/send',
     ]
 
     for e in endpoints:
