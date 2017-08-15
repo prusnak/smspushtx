@@ -74,6 +74,6 @@ def pushtx(data):
             if r.status_code == 200:
                 print('PUSH OK', e)
             else:
-                print('PUSH ERROR', e)
+                print('PUSH ERROR', r.status_code, e)
         except Exception as ex:
             print('PUSH FAILED', e, ex)
