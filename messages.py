@@ -6,14 +6,27 @@ import requests
 messages = {}
 
 
-def process_msg(msg):
+endpoints = {
+        'btc' : [
+            'https://btc-bitcore1.trezor.io/api/tx/send',
+            'https://btc-bitcore4.trezor.io/api/tx/send',
+            'https://insight.bitpay.com/api/tx/send',
+            'https://blockexplorer.com/api/tx/send',
+        ],
+        'ltc' : [
+            'https://insight.litecore.io/api/tx/send',
+            'https://ltc-bitcore3.trezor.io/api/tx/send',
+        ]
+    }
+
+def process_msg(msg, coin):
 
     try:
 
         # single message
         if 'concat' not in msg:
             # push it
-            pushtx(msg['text'])
+            pushtx(msg['text'], coin)
             return
 
         # split message
@@ -34,7 +47,7 @@ def process_msg(msg):
             joined = ''.join(messages[ref])
             del messages[ref]
             # and push it
-            pushtx(joined)
+            pushtx(joined, coin)
 
         print('PROCESSED OK')
 
@@ -43,7 +56,7 @@ def process_msg(msg):
         print('PROCESS ERROR', ex)
 
 
-def pushtx(data):
+def pushtx(data, coin):
 
     print('PUSHING "%s"' % data)
 
@@ -61,14 +74,7 @@ def pushtx(data):
         print('PUSH DECODE ERROR')
         return
 
-    endpoints = [
-        'https://btc-bitcore1.trezor.io/api/tx/send',
-        'https://btc-bitcore4.trezor.io/api/tx/send',
-        'https://insight.bitpay.com/api/tx/send',
-        'https://blockexplorer.com/api/tx/send',
-    ]
-
-    for e in endpoints:
+    for e in endpoints[coin]:
         try:
             r = requests.post(e, json={'rawtx': decoded}, timeout=1)
             if r.status_code == 200:

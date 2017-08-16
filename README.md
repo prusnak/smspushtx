@@ -1,4 +1,4 @@
 SMSPushTX
 =========
 
-Simple PushTX server to push Bitcoin transactions via SMS (using Nexmo)
+Simple PushTX server to push Bitcoin or Litecoin transactions via SMS (using Nexmo)
