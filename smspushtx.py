@@ -2,7 +2,9 @@
 
 from flask import Flask, request
 
-from messages import process_msg
+from messages import process_msg, endpoints
+
+from sys import argv
 
 app = Flask(__name__)
 
@@ -11,9 +13,16 @@ app = Flask(__name__)
 def smspushtx():
     j = request.get_json()
     print(j)
-    process_msg(j)
+    process_msg(j, coin)
     return '', 200
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=13730)
+
+    coin = 'btc'
+    if argv[1]:
+        coin = argv[1]
+    if coin in endpoints:
+        app.run(host='0.0.0.0', port=13730)
+    else:
+        print('UNKNOWN COIN')
