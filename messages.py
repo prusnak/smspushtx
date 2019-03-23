@@ -1,4 +1,5 @@
 import binascii
+import random
 import string
 
 import requests
@@ -62,11 +63,14 @@ def pushtx(data):
         return
 
     endpoints = [
-        "https://btc-bitcore4.trezor.io/api/tx/send",
-        "https://btc-bitcore5.trezor.io/api/tx/send",
-        "https://insight.bitpay.com/api/tx/send",
-        "https://blockexplorer.com/api/tx/send",
+        "https://btc1.trezor.io/api/tx/send",
+        "https://btc2.trezor.io/api/tx/send",
+        "https://btc3.trezor.io/api/tx/send",
+        "https://btc4.trezor.io/api/tx/send",
+        "https://btc5.trezor.io/api/tx/send",
     ]
+
+    random.shuffle(endpoints)
 
     for e in endpoints:
         try:
