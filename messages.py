@@ -63,18 +63,18 @@ def pushtx(data):
         return
 
     endpoints = [
-        "https://btc1.trezor.io/api/tx/send",
-        "https://btc2.trezor.io/api/tx/send",
-        "https://btc3.trezor.io/api/tx/send",
-        "https://btc4.trezor.io/api/tx/send",
-        "https://btc5.trezor.io/api/tx/send",
+        "https://btc1.trezor.io/sendtx",
+        "https://btc2.trezor.io/sendtx",
+        "https://btc3.trezor.io/sendtx",
+        "https://btc4.trezor.io/sendtx",
+        "https://btc5.trezor.io/sendtx",
     ]
 
     random.shuffle(endpoints)
 
     for e in endpoints:
         try:
-            r = requests.post(e, json={"rawtx": decoded}, timeout=1)
+            r = requests.post(e, data={"hex": decoded}, timeout=1)
             if r.status_code == 200:
                 print("PUSH OK", e)
             else:
