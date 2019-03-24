@@ -8,7 +8,6 @@ app = Flask(__name__)
 
 @app.route("/smspushtx", methods=["POST"])
 def smspushtx():
-    j = request.get_json()
-    print(j)
-    process_msg(j)
+    json = request.get_json()
+    process_msg(json)
     return "", 200
