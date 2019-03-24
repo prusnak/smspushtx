@@ -62,6 +62,8 @@ def pushtx(data):
         print("PUSH DECODE ERROR")
         return
 
+    decoded = decoded.strip()
+
     endpoints = [
         "https://btc1.trezor.io/sendtx",
         "https://btc2.trezor.io/sendtx",
@@ -69,8 +71,6 @@ def pushtx(data):
         "https://btc4.trezor.io/sendtx",
         "https://btc5.trezor.io/sendtx",
     ]
-
-    random.shuffle(endpoints)
 
     for e in endpoints:
         try:
