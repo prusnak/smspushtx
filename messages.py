@@ -83,8 +83,8 @@ def process_msg(msg):
         r = re.match(r"^\((\d+)/(\d+)\)(.*)$", msg["text"])
         if r:
             ref = "%s:%s" % (msg["msisdn"], "noref")
-            part, total = int(r.group(1)), int(r.group(2))
-            enqueue_msg(ref, part, total, msg["text"])
+            part, total, text = int(r.group(1)), int(r.group(2)), r.group(3)
+            enqueue_msg(ref, part, total, text)
             print("PROCESSED OK")
             return
 
