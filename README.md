@@ -1,10 +1,10 @@
 # SMSPushTX
 
-Simple PushTX server to push Bitcoin transactions via SMS (using Nexmo/Vonage).
+Simple PushTX server to send Bitcoin transactions via SMS (using Nexmo/Vonage).
 
 You can use either base64 or hex encoded raw transactions.
 
-More info: [https://rusnak.io/how-to-push-bitcoin-transactions-via-sms/](https://rusnak.io/how-to-push-bitcoin-transactions-via-sms/)
+More info: [https://rusnak.io/how-to-send-bitcoin-transactions-via-sms/](https://rusnak.io/how-to-send-bitcoin-transactions-via-sms/)
 
 ## Sending longer messages than 160 characters
 
