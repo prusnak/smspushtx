@@ -29,6 +29,7 @@ def push_tx(data):
 
     endpoints = [
         "https://blockstream.info/api/tx",
+        "https://mempool.space/api/tx",
     ]
 
     for e in endpoints:
