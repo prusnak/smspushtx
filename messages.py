@@ -13,33 +13,29 @@ def push_tx(data):
 
     # is it hex format?
     if all(c in string.hexdigits for c in data):
-        decoded = data
+        tx = data
     else:
         # try base64 decode, then convert to hex
         try:
-            decoded = binascii.hexlify(binascii.a2b_base64(data)).decode()
+            tx = binascii.hexlify(binascii.a2b_base64(data)).decode()
         except:
-            decoded = None
+            tx = None
 
-    if not decoded:
+    if not tx:
         print("PUSH DECODE ERROR")
         return
 
-    decoded = decoded.strip()
+    tx = tx.strip()
 
     endpoints = [
-        "https://btc1.trezor.io/sendtx",
-        "https://btc2.trezor.io/sendtx",
-        "https://btc3.trezor.io/sendtx",
-        "https://btc4.trezor.io/sendtx",
-        "https://btc5.trezor.io/sendtx",
+        "https://blockstream.info/api/tx",
     ]
 
     for e in endpoints:
         try:
-            r = requests.post(e, data={"hex": decoded}, timeout=1)
+            r = requests.post(e, data=tx, timeout=1)
             if r.status_code == 200:
-                print("PUSH OK", e)
+                print("PUSH OK", e, r.text)
             else:
                 print("PUSH ERROR", r.status_code, e)
         except Exception as ex:
