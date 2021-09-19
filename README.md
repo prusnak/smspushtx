@@ -6,7 +6,7 @@ You can use either base64 or hex encoded raw transactions.
 
 More info: [https://rusnak.io/how-to-send-bitcoin-transactions-via-sms/](https://rusnak.io/how-to-send-bitcoin-transactions-via-sms/)
 
-## Sending longer messages than 160 characters
+## Sending messages longer than 160 characters
 
 Modern GSM phones can automatically split longer messages into 160-character chunks.
 These are automatically joined together correctly on the server.
