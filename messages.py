@@ -34,7 +34,7 @@ def push_tx(data):
 
     for e in endpoints:
         try:
-            r = requests.post(e, data=tx, timeout=1)
+            r = requests.post(e, data=tx, timeout=30)
             if r.status_code == 200:
                 print("PUSH OK", e, r.text)
             else:
