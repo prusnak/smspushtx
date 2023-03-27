@@ -4,12 +4,13 @@ import string
 
 import requests
 
+logger = None
+
 
 def push_tx(data):
-
     data = data.strip()
 
-    print('PUSHING "%s"' % data)
+    logger.info(f"PUSHING '{data}'")
 
     # is it hex format?
     if all(c in string.hexdigits for c in data):
@@ -18,11 +19,11 @@ def push_tx(data):
         # try base64 decode, then convert to hex
         try:
             tx = binascii.hexlify(binascii.a2b_base64(data)).decode()
-        except:
+        except Exception:
             tx = None
 
     if not tx:
-        print("PUSH DECODE ERROR")
+        logger.info("PUSH DECODE ERROR")
         return
 
     tx = tx.strip()
@@ -36,11 +37,11 @@ def push_tx(data):
         try:
             r = requests.post(e, data=tx, timeout=30)
             if r.status_code == 200:
-                print("PUSH OK", e, r.text)
+                logger.info(f"PUSH OK {e} {r.text}")
             else:
-                print("PUSH ERROR", r.status_code, e)
+                logger.info(f"PUSH ERROR {r.status_code} {e}")
         except Exception as ex:
-            print("PUSH FAILED", e, ex)
+            logger.info(f"PUSH FAILED {e} {ex}")
 
 
 messages = {}
@@ -63,8 +64,8 @@ def enqueue_msg(ref, part, total, text):
         push_tx(joined)
 
 
-def process_msg(msg):
-    print("RECEIVED", msg)
+def process(msg):
+    logger.info(f"RECEIVED {msg}")
 
     try:
         # split message - indicated by the backend
@@ -73,7 +74,7 @@ def process_msg(msg):
             ref = "%s:%s" % (msg["msisdn"], msg["concat-ref"])
             part, total = int(msg["concat-part"]), int(msg["concat-total"])
             enqueue_msg(ref, part, total, msg["text"])
-            print("PROCESSED OK")
+            logger.info("PROCESSED OK")
             return
 
         # split message - indicated by the message prefix (#/#)
@@ -82,12 +83,12 @@ def process_msg(msg):
             ref = "%s:%s" % (msg["msisdn"], "noref")
             part, total, text = int(r.group(1)), int(r.group(2)), r.group(3)
             enqueue_msg(ref, part, total, text)
-            print("PROCESSED OK")
+            logger.info("PROCESSED OK")
             return
 
         # single message
         push_tx(msg["text"])
-        print("PROCESSED OK")
+        logger.info("PROCESSED OK")
 
     except Exception as ex:
-        print("PROCESS ERROR", ex)
+        logger.info(f"PROCESS ERROR {ex}")

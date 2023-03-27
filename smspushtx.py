@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
 from flask import Flask, request
-from messages import process_msg
+import messages
 
 app = Flask(__name__)
+messages.logger = app.logger
 
 
 @app.route("/smspushtx", methods=["POST"])
 def smspushtx():
     json = request.get_json()
-    process_msg(json)
+    messages.process(json)
     return "", 200
